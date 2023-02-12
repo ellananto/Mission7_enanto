@@ -11,7 +11,6 @@ namespace Mission6.Models
         [Key]
         [Required]
         public int RentalID { get; set; }
-        public string Category { get; set; }
         public string Title { get; set; }
         public string Year { get; set; }
         public string Director { get; set; }
@@ -20,5 +19,8 @@ namespace Mission6.Models
         public string LentTo { get; set; }
         [StringLength(25, MinimumLength = 0)]
         public string Notes { get; set; }
+        // build foreign key relationship
+        public int CategoryID { get; set; }
+        public Category Category { get; set; }
     }
 }

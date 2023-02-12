@@ -8,7 +8,7 @@ using Mission6.Models;
 namespace Mission6.Migrations
 {
     [DbContext(typeof(MovieCollectionContext))]
-    [Migration("20230208062743_Initial")]
+    [Migration("20230212012140_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,18 +17,62 @@ namespace Mission6.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.22");
 
+            modelBuilder.Entity("Mission6.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryID");
+
+                    b.ToTable("Category");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryID = 1,
+                            CategoryName = "Action"
+                        },
+                        new
+                        {
+                            CategoryID = 2,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryID = 3,
+                            CategoryName = "Romance"
+                        },
+                        new
+                        {
+                            CategoryID = 4,
+                            CategoryName = "Horror"
+                        },
+                        new
+                        {
+                            CategoryID = 5,
+                            CategoryName = "Mystery"
+                        },
+                        new
+                        {
+                            CategoryID = 6,
+                            CategoryName = "Thriller"
+                        });
+                });
+
             modelBuilder.Entity("Mission6.Models.MovieFormResponse", b =>
                 {
                     b.Property<int>("RentalID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Edited")
@@ -42,18 +86,17 @@ namespace Mission6.Migrations
                         .HasMaxLength(25);
 
                     b.Property<string>("Rating")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Year")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("RentalID");
+
+                    b.HasIndex("CategoryID");
 
                     b.ToTable("responses");
 
@@ -61,7 +104,7 @@ namespace Mission6.Migrations
                         new
                         {
                             RentalID = 1,
-                            Category = "Suspense",
+                            CategoryID = 1,
                             Director = "Christopher Nolan",
                             Edited = false,
                             Notes = "My favorite movie!",
@@ -72,7 +115,7 @@ namespace Mission6.Migrations
                         new
                         {
                             RentalID = 2,
-                            Category = "Action",
+                            CategoryID = 2,
                             Director = "Kevin Feige",
                             Edited = false,
                             Notes = "Avengers are the best!",
@@ -83,7 +126,7 @@ namespace Mission6.Migrations
                         new
                         {
                             RentalID = 3,
-                            Category = "Musical",
+                            CategoryID = 3,
                             Director = "Disney",
                             Edited = false,
                             Notes = "The best ending!",
@@ -91,6 +134,15 @@ namespace Mission6.Migrations
                             Title = "High School Musical 3: Senior Year",
                             Year = "2008"
                         });
+                });
+
+            modelBuilder.Entity("Mission6.Models.MovieFormResponse", b =>
+                {
+                    b.HasOne("Mission6.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

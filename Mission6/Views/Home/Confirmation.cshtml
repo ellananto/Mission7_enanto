@@ -7,11 +7,4 @@
 
 @model Mission6.Models.MovieFormResponse
 
-@if (Model.Category is null | Model.Year is null | Model.Title is null | Model.Rating is null | Model.Director is null)
-{
-    <p>Please go back- looks like you missed a field!</p>
-}
-else
-{
-    <p>Thanks for your rental form submission.</p>
-}
+<h2>Thank you for your entry of "@Model.Title."</h2>
